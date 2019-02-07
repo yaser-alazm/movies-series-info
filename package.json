@@ -2,8 +2,10 @@
   "name": "movies-series-app",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://yaser-alazem.github.io/movies-series-info",
   "dependencies": {
     "axios": "^0.18.0",
+    "gh-pages": "^2.0.1",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "react-redux": "^6.0.0",
@@ -14,6 +16,7 @@
     "redux-thunk": "^2.3.0"
   },
   "scripts": {
+    "deploy": "npm run build&&gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

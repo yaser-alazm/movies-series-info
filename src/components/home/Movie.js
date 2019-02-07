@@ -1,68 +1,77 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
-import { fetchMovie } from '../../actions/searchActions';
+import { fetchMovie, setLoading } from '../../actions/searchActions';
+
+import Spinner from '../layout/Spinner';
 
 export class Movie extends Component {
-  compnentDidMount() {
+  componentDidMount() {
     this.props.fetchMovie(this.props.match.params.id);
+    this.props.setLoading();
   }
   render() {
-    return (
-      <React.Fragment>
-        <div class="row">
-          <div class="col-md-4 card card-body">
-            <img src="#movie-poster" class="thumbnail" alt="Poster" />
+    const { loading, movie } = this.props;
+
+    let movieInfo = (
+      <div className="container">
+        <div className="row">
+          <div className="col-md-4 card card-body">
+            <img src={movie.Poster} className="thumbnail" alt="Poster" />
           </div>
-          <div class="col-md-8">
-            <h2 class="mb-4">Movie Title</h2>
-            <ul class="list-group">
-              <li class="list-group-item">
-                <strong>Genre:</strong> Movie Genre
+          <div className="col-md-8">
+            <h2 className="mb-4">{movie.Title}</h2>
+            <ul className="list-group">
+              <li className="list-group-item">
+                <strong>Genre:</strong> {movie.Genre}
               </li>
-              <li class="list-group-item">
-                <strong>Released:</strong> Movie Released
+              <li className="list-group-item">
+                <strong>Released:</strong> {movie.Released}
               </li>
-              <li class="list-group-item">
-                <strong>Rated:</strong> Movie Rated
+              <li className="list-group-item">
+                <strong>Rated:</strong> {movie.Rated}
               </li>
-              <li class="list-group-item">
-                <strong>IMDB Rating:</strong> Movie IMDB Rating
+              <li className="list-group-item">
+                <strong>IMDB Rating:</strong> {movie.imdbRating}
               </li>
-              <li class="list-group-item">
-                <strong>Director:</strong> Movie Director
+              <li className="list-group-item">
+                <strong>Director:</strong> {movie.Director}
               </li>
-              <li class="list-group-item">
-                <strong>Writer:</strong> Movie Writer
+              <li className="list-group-item">
+                <strong>Writer:</strong> {movie.Writer}
               </li>
-              <li class="list-group-item">
-                <strong>Actors:</strong> Movie Actors
+              <li className="list-group-item">
+                <strong>Actors:</strong> {movie.Actors}
               </li>
             </ul>
           </div>
         </div>
-        <div class="row">
-          <div class="card card-body bg-dark my-5 text-light">
-            <div class="col-md-12">
+        <div className="row">
+          <div className="card card-body bg-dark my-5 text-light">
+            <div className="col-md-12">
               <h3>About </h3>
-              About the movie
+              {movie.Plot}
               <hr />
               <a
-                href="#"
+                href={'https://www.imdb.com/title/' + movie.imdbID}
                 target="_blank"
                 rel="noopener noreferrer"
-                class="btn btn-primary"
+                className="btn btn-primary"
               >
                 View on IMDB
               </a>
-              <a href="#" class="btn btn-default text-light">
+              <Link to="/" className="btn btn-default text-light">
                 Go Back To Search
-              </a>
+              </Link>
             </div>
           </div>
         </div>
-      </React.Fragment>
+      </div>
     );
+
+    let content = loading ? <Spinner /> : movieInfo;
+    return <div>{content}</div>;
   }
 }
 
@@ -73,5 +82,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { fetchMovie }
+  { fetchMovie, setLoading }
 )(Movie);
